@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CommentsReaderApp</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+  <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+</head>
+<body>
+ 
+<div id="log">
+  <h3>Comment:</h3>
+  <input type="file" name="file" id="file">
+
+
+  <div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-default" onclick="previousComment();">Previous</button>
+    </div>
+    <div class="btn-group" role="group">
+      <label id="id_comment"></label>
+    </div>
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-default" onclick="nextComment();">Next</button>
+    </div>
+
+  </div>
+
+  <div id="comment">
+    <code><pre id="commentPre">
+
+    </pre></code>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+  var commentsDict = [];
+
+  document.getElementById('file').onchange = function(){
+    console.log( "file selected , onchange() was called\n" );
+
+    var file = this.files[0];
+
+    var reader = new FileReader();
+    reader.onload = function(progressEvent){
+
+      // By lines
+      var lines = this.result.split('\n');
+      for(var i = 0; i < lines.length; i++){
+        var line = lines[i].split(',')
+        //console.log(line[0]+","+line[3]);
+        commentsDict[ i ] = [ ""+line[0] , ""+line[3] ];
+      }
+    };
+    reader.readAsText(file);
+
+
+  };
+
+  var counter = 0;
+
+  function nextComment()
+  {
+    console.log("nextComment function was called\n");
+    console.log( commentsDict.length );
+    showText();
+    /*document.getElementById('file').onchange = function(){
+
+    var file = this.files[0];
+
+    var reader = new FileReader();
+    reader.onload = function(progressEvent){
+
+      // By lines
+      var lines = this.result.split('\n');
+      for(var i = 0; i < lines.length; i++){
+        var line = lines[i].split(',')
+        console.log(line[0]+","+line[3]);
+      }
+    };
+    reader.readAsText(file);
+    };*/
+  }
+
+  function previousComment()
+  {
+    console.log("previousComment function was called\n");
+
+    console.log( commentsDict.length );
+    /*document.getElementById('file').onchange = function(){
+
+    var file = this.files[0];
+
+    var reader = new FileReader();
+    reader.onload = function(progressEvent){
+
+      // By lines
+      var lines = this.result.split('\n');
+      for(var i = 0; i < lines.length; i++){
+        var line = lines[i].split(',')
+        console.log(line[0]+","+line[3]);
+      }
+    };
+    reader.readAsText(file);
+    };*/
+  }
+
+
+
+  //jquery
+  jQuery(document).ready(function($) {
+
+    window.showText = function()
+    {
+      console.log("showText() was called");
+      var $comment = $( "#commentPre" ),
+        str = '<code><pre>\nProvides a content assist add-on for an <tt>ITextViewer</tt>.\nContent assist supports the user in writing&nbsp; by proposing context\nsensitive completions at a given document position. A completion can also\nbe a incomplete in itself and content assist provides means to deal with\nnested completions.\n<h2>\nPackage Specification</h2>\n<tt>IContentAssistant</tt> defines the concept of the content assist add-on.\nIt collaborates with content type specific completion processors (<tt>IContentAssistProcessor</tt>)\nin order to generate completion proposals (<tt>ICompletionProposal</tt>)\nvalid at the current document position. The package provides a default\nimplementation <tt>ContentAssistant</tt> which completely defines and implements\nthe UI and the control flow for content assist.\n<br>&nbsp;\n</pre></code>',
+        //html = $.parseHTML( str );
+        html = $.parseHTML( commentsDict[counter][1].replace(/\\n/g,"<br>") );
+
+      console.log(commentsDict[counter][1]);
+      console.log('<code><pre>\nProvides a content assist add-on for an <tt>ITextViewer</tt>.\nContent assist supports the user in writing&nbsp; by proposing context\n</pre></code>');
+      console.log(typeof commentsDict[counter][1]);
+      console.log(typeof '<code><pre>\nProvides a content assist add-on for an <tt>ITextViewer</tt>.\nContent assist supports the user in writing&nbsp; by proposing context\n</pre></code>');
+
+      // Append the parsed HTML
+      ///$log.append( html );
+      $("#id_comment").empty();
+      $("#id_comment").append( ""+commentsDict[counter][0] );
+      $comment.empty();
+      $comment.append(html);
+      //$comment.append($.parseHTML( '"<code><pre>\nProvides a content assist add-on for an <tt>ITextViewer</tt>.\nContent assist supports the user in writing&nbsp; by proposing context\nsensitive completions at a given document position. A completion can also\nbe a incomplete in itself and content assist provides means to deal with\nnested completions.\n<h2>\nPackage Specification</h2>\n<tt>IContentAssistant</tt> defines the concept of the content assist add-on.\nIt collaborates with content type specific completion processors (<tt>IContentAssistProcessor</tt>)\nin order to generate completion proposals (<tt>ICompletionProposal</tt>)\nvalid at the current document position. The package provides a default\nimplementation <tt>ContentAssistant</tt> which completely defines and implements\nthe UI and the control flow for content assist.\n<br>&nbsp;\n</pre></code>"' ));
+      ////$("p").text("Hello world!");
+      ////
+      counter=counter+1;
+    }
+
+  });
+
+
+
+</script>
+
+
+
+
+
+
+<!--
+<script>
+var $log = $( "#log" ),
+  str = '"<code><pre>\nProvides a content assist add-on for an <tt>ITextViewer</tt>.\nContent assist supports the user in writing&nbsp; by proposing context\nsensitive completions at a given document position. A completion can also\nbe a incomplete in itself and content assist provides means to deal with\nnested completions.\n<h2>\nPackage Specification</h2>\n<tt>IContentAssistant</tt> defines the concept of the content assist add-on.\nIt collaborates with content type specific completion processors (<tt>IContentAssistProcessor</tt>)\nin order to generate completion proposals (<tt>ICompletionProposal</tt>)\nvalid at the current document position. The package provides a default\nimplementation <tt>ContentAssistant</tt> which completely defines and implements\nthe UI and the control flow for content assist.\n<br>&nbsp;\n</pre></code>"',
+  html = $.parseHTML( str ),
+  nodeNames = [];
+ 
+// Append the parsed HTML
+$log.append( html );
+ 
+// Gather the parsed HTML's node names
+$.each( html, function( i, el ) {
+  nodeNames[ i ] = "<li>" + el.nodeName + "</li>";
+});
+ 
+// Insert the node names
+$log.append( "<h3>Node Names:</h3>" );
+$( "<ol></ol>" )
+  .append( nodeNames.join( "" ) )
+  .appendTo( $log );
+</script>
+-->
+
+
+
+
+
+<!-- [Bootstrap] Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
+
+</body>
+</html>
