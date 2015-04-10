@@ -2,9 +2,12 @@
 Let's you load a local file and read it's comments. Comments are easier to read when using this app.
 
 ## Instructions
-1. Load the file possible_non_directives.csv provided, it's in the correct format for this readerApp.
-2. Press button 'Next' to view the following comment inside the file. (Previous button does nothing for now)
+1. Download folder normal_html_webpage
+2. Open index.html
+3. Load a .csv file (2 files are provided)
+4. Done
 
-## Coming Soon
-* Buttons to decide if a comment is a directive or a non_directive
-* Hotkeys
+## Hotkeys
+* Left and Right Arrows: previos/next comment
+* Y or Up-Arrow: 'yes' tag the comment with a Directive label
+* N or Down-Arrow: 'no' tag the comment with a Non-Directive label
