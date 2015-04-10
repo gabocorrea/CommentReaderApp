@@ -118,6 +118,25 @@
 
         </pre></code>
       </div>
+
+
+
+
+      <br>
+      <br>
+
+      <button type="button" class="btn btn-default btn-lg btn-block" onclick="toggleOutText();">
+        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+        Toggle results file
+      </button>
+
+      <div id="out">
+        <code><pre id="outText">
+
+        </pre></code>
+      </div>
+
+
     </div>
 
 
@@ -135,6 +154,10 @@
 
 
 <script type="text/javascript">
+
+  outHidden = true;
+  $("#outText").hide();
+
 
   // Check if client's browser version can handle HTML5's Local Storage
   if(typeof(Storage) !== "undefined") {
@@ -171,16 +194,20 @@
 
   function nextComment()
   {
-    console.log("nextComment function was called\n");
-    current_line_pointer += 1;
-    showCommentAndId();
+    if (current_line_pointer<lines.length-1) {
+      console.log("nextComment function was called\n");
+      current_line_pointer += 1;
+      showCommentAndId();
+    }
   }
 
   function previousComment()
   {
-    console.log("previousComment function was called\n");
-    current_line_pointer -= 1;
-    showCommentAndId();
+    if (current_line_pointer>1) {
+      console.log("previousComment function was called\n");
+      current_line_pointer -= 1;
+      showCommentAndId();
+    }
   }
 
   function showCommentAndId()
@@ -254,6 +281,24 @@
       }
       return arr;
   }
+
+
+
+  function toggleOutText() {
+      if (outHidden) {
+        $("#outText").empty();
+        for (var n=1;n<lines.length;n++) { //bug. no revisar todas las lineas. algunas no tienen nada asignado en localstorage
+          $("#outText").append( localStorage.getItem(""+lines[n].split(',',1)[0]) );
+        }
+
+        $('#outText').show();
+        outHidden = false;
+      } else {
+        $('#outText').hide();
+        outHidden = true;
+      }
+  }
+
 </script>
 
 
