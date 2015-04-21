@@ -17,10 +17,13 @@
       var listener = new window.keypress.Listener();
       listener.simple_combo("y", yes);
       listener.simple_combo("n", no);
-      listener.simple_combo("up", yes);
-      listener.simple_combo("down", no);
-      listener.simple_combo("left", previousComment);
-      listener.simple_combo("right", nextComment);
+      listener.simple_combo("up", function() {previousPhrase(); updateMyLogger();});
+      listener.simple_combo("down", function() {nextPhrase(); updateMyLogger();});
+      listener.simple_combo("right", function() {nextComment(); updateMyLogger();});
+      listener.simple_combo("left", function() {previousComment(1); updateMyLogger();});
+      $('#file').on('fileselect', function(event, numFiles, label) {
+        $('#file_name').val(label);
+      });
     })
   </script>
 
@@ -47,6 +50,8 @@
     background-color: white !important;
     cursor: text !important;
   }
+
+  mark{color:#000;background:#ff0}
   </style>
 
 
@@ -64,7 +69,7 @@
               Browse <input type="file" id="file">
             </span>
           </span>
-          <input type="text" class="form-control" readonly>
+          <input id='file_name' type="text" class="form-control" readonly>
         </div>
       </div>
     </div>
@@ -109,13 +114,17 @@
       <br>
       <div class="text-center">
         <h3 id="id_comment">id</h3>
+        <p id='mylogger'></p>
       </div>
 
-      <h3>Comment:</h3>
+      <div class="text-center">
+        <h3 id="mylogger"></h3>
+      </div>
+
+      <!--<h3>Comment:</h3>-->
 
       <div id="comment">
         <code><pre id="commentPre">
-
         </pre></code>
       </div>
 
@@ -153,6 +162,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script type="text/javascript">
 
   outHidden = true;
@@ -167,11 +194,15 @@
   }
 
 
-
+  var debug = true;
   var commentsDict = [];
   var lines = [];
+  var lines_current_subset = [];
+  //var phrases = [];
   var file = null;
-  var current_line_pointer = 1;
+  var current_line_pointer = 2;
+  var phrase_pointer = 1;
+  var lines_last_subset = undefined;
 
   $('#buttons_and_comments').hide();
 
@@ -183,8 +214,13 @@
     var reader = new FileReader();
     reader.onload = function(progressEvent){
       // save lines to a global variable
-      lines = this.result.split('\n');
-      showCommentAndId();
+      var s_temp = 'dummy_line\n'+this.result;
+      console.log('pppppppp:'+s_temp.substring(0,20));
+      lines = s_temp.split('\n');
+      calculateCurrentLinesSubset();
+      updateText();
+      updateId();
+      updateMyLogger();
     };
     reader.readAsText(file);
 
@@ -192,29 +228,121 @@
   };
 
 
+  //show file selected in text input (readonly)
+  $(document).on('change', '#file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+
+  function nextPhrase()
+  {
+    console.log("nextPhrase function was called\n");
+    if (phrase_pointer<lines_current_subset.length-1) {
+      phrase_pointer += 1;
+      updateText();
+      updateId();
+    } else {
+      nextComment();
+    }
+  }
+
+  function previousPhrase()
+  {
+    console.log("previousPhrase function was called\n");
+    console.log('current_line_pointer:' +current_line_pointer);
+    if (phrase_pointer>1) {
+      phrase_pointer -= 1;
+      updateText();
+      updateId();
+    } else{
+      previousComment(lines_last_subset.length-1);
+    }
+  }
+
   function nextComment()
   {
-    if (current_line_pointer<lines.length-1) {
       console.log("nextComment function was called\n");
-      current_line_pointer += 1;
-      showCommentAndId();
+    if (current_line_pointer<lines.length-1) {
+      console.log(lines_current_subset.length);
+      current_line_pointer += lines_current_subset.length;
+      calculateCurrentLinesSubset();
+      phrase_pointer = 1;
+      updateText();
+      updateId();
     }
   }
 
-  function previousComment()
+  function previousComment(phrase_pointer_argument_passing)
   {
-    if (current_line_pointer>1) {
       console.log("previousComment function was called\n");
-      current_line_pointer -= 1;
-      showCommentAndId();
+    if (current_line_pointer>1) {
+      current_line_pointer -= lines_last_subset.length;
+      console.log('current_line_pointer:' +current_line_pointer);
+      calculateCurrentLinesSubset();
+      phrase_pointer = phrase_pointer_argument_passing;
+      updateText();
+      updateId();
     }
   }
-
-  function showCommentAndId()
+  function calculateCurrentLinesSubset()
   {
-    var list_of_str = mysplit(lines[current_line_pointer],',',3);
-    showText(list_of_str[3]);
-    showId(list_of_str[0]);
+    var current_line_pointer_cpy = current_line_pointer;
+    if (lines_current_subset!=undefined){
+      lines_last_subset = lines_current_subset;
+    }
+    lines_current_subset=[];
+
+    for (var i=1;i<200;i++) { //maximo examinar max 200 lineas para que no exista un loop infinito
+      if (current_line_pointer_cpy>=lines.length) {
+        console.log('break (malo solo deberia pasar cuando se acaba el archivo) with i='+i)
+        break;
+      }
+      var id = mysplit(lines[current_line_pointer_cpy],',',1)[0];
+      
+      if ( i>1 && id!=lastId) {
+        console.log('break (bueno) with i='+i)
+        break;
+      }
+      var lastId = id;
+      lines_current_subset.push(lines[current_line_pointer_cpy]);
+      current_line_pointer_cpy++;
+    }
+
+  }
+  function updateId()
+  {
+    var line = mysplit(lines_current_subset[phrase_pointer],',',2);
+    showId(line[0]+'-'+line[1]);
+  }
+  function updateText()
+  {
+    var comment = '';
+
+    for (var i=1;i<lines_current_subset.length; i++){
+      var splitted_line = mysplit(lines_current_subset[i],',',5);
+      if (i!=phrase_pointer) {
+        comment += splitted_line[5].replace(/<[^>]+>/g,''); //esto es para ignorar todos los tags
+      } else {
+        comment += '<mark>'+splitted_line[5].replace(/<[^>]+>/g,'')+'</mark>';
+      }
+    }
+    showText(comment);
+  }
+  function updateMyLogger()
+  {
+    if (debug) {
+      $('#mylogger').show();
+      var s = '';
+      s += 'current line pointer:'+current_line_pointer;
+      s += '<br>phrase pointer:'+phrase_pointer;
+      s += '<br>length of current subset of lines:'+lines_current_subset.length;
+      showLog(s);
+    } else {
+      $('#mylogger').hide();
+    }
   }
 
 
@@ -243,7 +371,9 @@
     window.showText = function(str)
     {
       console.log("showText() was called");
-      html = $.parseHTML( str.replace(/\\n/g,"<br>") );
+      str = str.replace(/<\/?p>|<\/?p>|/g,'');
+      str = str.replace(/\\n/g,'<br>');
+      html = $.parseHTML( str );
 
       // Append the parsed HTML
       $("#commentPre").empty();
@@ -258,6 +388,12 @@
       $("#id_comment").empty();
       $("#id_comment").append( "id: "+ str );
  
+    }
+
+    window.showLog = function(str)
+    {
+      $('#mylogger').empty();
+      $('#mylogger').append(str);
     }
 
   });
