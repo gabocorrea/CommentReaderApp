@@ -15,12 +15,13 @@
   <script type="text/javascript">
     $(document).ready(function() {
       var listener = new window.keypress.Listener();
-      listener.simple_combo("y", yes);
-      listener.simple_combo("n", no);
+      //listener.simple_combo({"keys":"space","prevent_default":true,}, toggleDirectiveField);
+      listener.simple_combo("ctrl 1", showLocalStorageInConsoleLog);
+      listener.simple_combo("space", toggleDirectiveField);
       listener.simple_combo("up", function() {previousPhrase(); updateMyLogger();});
       listener.simple_combo("down", function() {nextPhrase(); updateMyLogger();});
       listener.simple_combo("right", function() {nextComment(); updateMyLogger();});
-      listener.simple_combo("left", function() {previousComment(1); updateMyLogger();});
+      listener.simple_combo("left", function() {previousComment('start'); updateMyLogger();});
       $('#file').on('fileselect', function(event, numFiles, label) {
         $('#file_name').val(label);
       });
@@ -52,6 +53,11 @@
   }
 
   mark{color:#000;background:#ff0}
+  
+  .bg-morado{background-color:#CCCDFF}
+  .bg-rojo{background-color:#FCB1B1}  
+  .bg-morado > *{background-color:#CCCDFF}
+  .bg-rojo > *{background-color:#FCB1B1}
   </style>
 
 
@@ -134,11 +140,26 @@
       <br>
       <br>
 
-      <button type="button" class="btn btn-default btn-lg btn-block" onclick="toggleOutText();">
-        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
-        Toggle results file
-      </button>
-
+      <div class="row">
+        <div class="col-md-3">
+        <button type="button" class="btn btn-default btn-lg btn-block" onclick="toggleExportText();" data-toggle="tooltip" data-placement="top" title="Copy this text to a file to export all data">
+          <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+          Toggle export data
+        </button>
+        </div>
+        <div class="col-md-6">
+        <button type="button" class="btn btn-info btn-lg btn-block" onclick="toggleLocalStorageText();">
+          <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+          Toggle export data (readable)
+        </button>
+        </div>
+        <div class="col-md-3">
+        <button type="button" class="btn btn-warning btn-lg btn-block" onclick="eraseLocalStorage();" data-toggle="tooltip" data-placement="top" title="The app forgets all the states set by the user in the past (data is stored in your hard drive)">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          Erase all data
+        </button>
+        </div>
+      </div>
       <div id="out">
         <code><pre id="outText">
 
@@ -180,11 +201,30 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script type="text/javascript">
 
   outHidden = true;
   $("#outText").hide();
-
+  //$('#buttons_and_comments').hide();
 
   // Check if client's browser version can handle HTML5's Local Storage
   if(typeof(Storage) !== "undefined") {
@@ -202,9 +242,10 @@
   var file = null;
   var current_line_pointer = 2;
   var phrase_pointer = 1;
-  var lines_last_subset = undefined;
+  var previous_comment_lines_subset = undefined;
 
-  $('#buttons_and_comments').hide();
+  var is_directive_setted_values = {};
+
 
   document.getElementById('file').onchange = function(){
     console.log( "file selected , onchange() was called\n" );
@@ -215,18 +256,19 @@
     reader.onload = function(progressEvent){
       // save lines to a global variable
       var s_temp = 'dummy_line\n'+this.result;
-      console.log('pppppppp:'+s_temp.substring(0,20));
       lines = s_temp.split('\n');
       calculateCurrentLinesSubset();
       updateText();
       updateId();
       updateMyLogger();
+      console.log(Object.keys(is_directive_setted_values).length);
+      populateDirectiveSettedValuesDictionary();
+      console.log(Object.keys(is_directive_setted_values).length);
     };
     reader.readAsText(file);
 
     $('#buttons_and_comments').show();
   };
-
 
   //show file selected in text input (readonly)
   $(document).on('change', '#file', function() {
@@ -258,7 +300,7 @@
       updateText();
       updateId();
     } else{
-      previousComment(lines_last_subset.length-1);
+      previousComment('end');
     }
   }
 
@@ -275,14 +317,23 @@
     }
   }
 
-  function previousComment(phrase_pointer_argument_passing)
+  function previousComment(offset)
   {
-      console.log("previousComment function was called\n");
-    if (current_line_pointer>1) {
-      current_line_pointer -= lines_last_subset.length;
-      console.log('current_line_pointer:' +current_line_pointer);
+    offset = typeof(offset) !== 'undefined' ? offset : 'start';
+
+    console.log("previousComment function was called\n");
+    if (current_line_pointer>2) {
+      
+      prevSubset = getPreviousLinesSubset();
+      current_line_pointer -= prevSubset.length;
       calculateCurrentLinesSubset();
-      phrase_pointer = phrase_pointer_argument_passing;
+      if (offset=='start') {
+        phrase_pointer=1;
+      } else if (offset == 'end') {
+        phrase_pointer=lines_current_subset.length-1;
+      } else {
+        alert('myError: called previousComment() function with an incorrect parameter');
+      }
       updateText();
       updateId();
     }
@@ -290,9 +341,7 @@
   function calculateCurrentLinesSubset()
   {
     var current_line_pointer_cpy = current_line_pointer;
-    if (lines_current_subset!=undefined){
-      lines_last_subset = lines_current_subset;
-    }
+
     lines_current_subset=[];
 
     for (var i=1;i<200;i++) { //maximo examinar max 200 lineas para que no exista un loop infinito
@@ -312,11 +361,42 @@
     }
 
   }
+
+  function getPreviousLinesSubset()
+  {
+    var current_line_pointer_cpy = current_line_pointer;
+    previous_comment_lines_subset = [];
+    
+    for (var i=1; i<200;i++) { //maximo examinar 200 lineas por si llega a haber un loop infinito
+      if (current_line_pointer_cpy<=2) {
+        console.log('i='+i);
+        if ( i==1 ) {
+          console.log('cant go to previous comment because this one is the first one.');
+        } else {
+          console.log('break (bueno) with i='+i);
+        }
+        break;
+      }
+      current_line_pointer_cpy--;
+      id = mysplit(lines[current_line_pointer_cpy],',',1)[0];
+
+      if ( i>1 && id!=lastId) {
+        console.log('break (bueno) with i='+i);
+        break;
+      }
+      lastId = id;
+      previous_comment_lines_subset.push(lines[current_line_pointer_cpy]);
+    }
+    return previous_comment_lines_subset.reverse();
+  }
+
+
   function updateId()
   {
     var line = mysplit(lines_current_subset[phrase_pointer],',',2);
     showId(line[0]+'-'+line[1]);
   }
+
   function updateText()
   {
     var comment = '';
@@ -324,9 +404,10 @@
     for (var i=1;i<lines_current_subset.length; i++){
       var splitted_line = mysplit(lines_current_subset[i],',',5);
       if (i!=phrase_pointer) {
-        comment += splitted_line[5].replace(/<[^>]+>/g,''); //esto es para ignorar todos los tags
+        ////// Last version: splitted_line[5].replace(/<[^>]+>/g,'') //esto es para ignorar todos los tagsj
+        comment += '<span class="inline bg-morado">'+splitted_line[5]+'</span>';
       } else {
-        comment += '<mark>'+splitted_line[5].replace(/<[^>]+>/g,'')+'</mark>';
+        comment += '<span class="inline bg-rojo">'+splitted_line[5]+'</span>';
       }
     }
     showText(comment);
@@ -350,19 +431,99 @@
   {
     console.log("yes() function was called\n");
 
-    localStorage.setItem(""+current_line_pointer, lines[current_line_pointer].split(',',1)[0]+",1\n");
-
-    console.log(""+localStorage.getItem(""+current_line_pointer));
+    ////wrong call to .split (call mysplit) localStorage.setItem(""+current_line_pointer, lines[current_line_pointer].split(',',1)[0]+",1\n");
   }
 
   function no()
   {
     console.log("no() function was called\n");
 
-    localStorage.setItem(""+current_line_pointer, lines[current_line_pointer].split(',',1)[0]+",0\n");
+    ////wrong call to .split (call mysplit) localStorage.setItem(""+current_line_pointer, lines[current_line_pointer].split(',',1)[0]+",0\n");
+  }
+  function toggleDirectiveField()
+  {
+    console.log("toggleDirectiveField() function was called\n");
 
-    console.log(""+localStorage.getItem(""+current_line_pointer));
-  }        
+    myLineVar = mysplit(lines[current_line_pointer+phrase_pointer],',',3);
+
+    var aNumberStr;
+    if (is_directive_setted_values[myLineVar[0]] == undefined) {
+      is_directive_setted_values[myLineVar[0]] = {};
+      console.log("reset of dictionary");
+    }
+    if ( is_directive_setted_values[myLineVar[0]][phrase_pointer] == undefined ) {
+      aNumberStr = myLineVar[2];
+      //TODO: aca sería deseable chequear que is_directive tiene el formato de numero.. y no fue leido mal del archivo
+      console.log('(if) - is_directive='+is_directive);
+    } else {
+      aNumberStr = is_directive_setted_values[myLineVar[0]][phrase_pointer];
+      console.log('(else) - is_directive='+is_directive);
+    }
+    var is_directive = ''+aNumberStr;
+    
+
+    if (is_directive == '0') {
+      is_directive_setted_values[myLineVar[0]][phrase_pointer] = '1'
+      console.log("phrase set to 1 (directive)\n");
+    } else if (is_directive == '1') {
+      is_directive_setted_values[myLineVar[0]][phrase_pointer] = '2'
+      console.log("phrase set to 2 (revise-later)\n");
+    } else if (is_directive == '2') {
+      is_directive_setted_values[myLineVar[0]][phrase_pointer] = '0'
+      console.log("phrase set to 0 (non-directive)\n");
+    } else {
+      console.error("esto no deberia pasar, is_directive="+is_directive);
+    }
+    localStorage.setItem(''+myLineVar[0], JSON.stringify(is_directive_setted_values[myLineVar[0]]));
+  }
+
+  function populateDirectiveSettedValuesDictionary(){
+    for (key in localStorage) {
+      var s = JSON.parse(localStorage.getItem( key ));
+
+      if (typeof(s) != 'object') {
+        console.error('myError! found element in localStorage that isnt an object - returning from function');
+        return;
+      }
+      is_directive_setted_values[key] = {};
+      for (key_2 in s) {
+        is_directive_setted_values[key][key_2] = s[key_2];
+      }
+    }
+    
+  }
+  function eraseLocalStorage(){
+    console.log('eraseLocalStorage() function was called');
+    console.log('\n-------- localStorage before being erased: ---------');
+    for (key in localStorage){
+      console.log(key+':'+localStorage[key]);
+    }
+    if (Object.keys(localStorage).length<1){
+      console.log('((( localStorage is empty )))');
+    }
+
+    localStorage.clear();
+    
+    console.log('\n\n-------- localStorage after being erased: ---------');
+    for (key in localStorage){
+      console.log(key+':'+localStorage[key]);
+    }
+    if (Object.keys(localStorage).length<1){
+      console.log('((( localStorage is empty )))');
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   //jquery
@@ -371,7 +532,7 @@
     window.showText = function(str)
     {
       console.log("showText() was called");
-      str = str.replace(/<\/?p>|<\/?p>|/g,'');
+      str = str.replace(/<\/?p>/g,'');
       str = str.replace(/\\n/g,'<br>');
       html = $.parseHTML( str );
 
@@ -399,6 +560,20 @@
   });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   function mysplit(aString, aChar, maxSplit) {
       var aStringCpy = aString.slice(0);
       var arr = [];
@@ -419,14 +594,61 @@
   }
 
 
+  function localStorage2String(){
+    ret = '';
+    if (Object.keys(localStorage).length>0) {
+      for (key in localStorage){
+        obj = JSON.parse(localStorage[key]);
+        s = '\n' + key + ':';
+        if (typeof(obj) != 'object') {
+          s += '\n\tmyError!: This is not an object/dictionary and it should be. It is of type <'+typeof(obj)+'>';
+        }
+        for (key_2 in obj) {
+          s += '\n\t'+key_2+':'+obj[key_2];
+        }
+        ret += s;
+      }
+    } else {
+      ret += 'localStorage is empty.';
+    }
+    return ret;
+  }
 
-  function toggleOutText() {
+
+
+  function localStorage2ExportString(){
+    ret = 'id,id_sub,is_directive\n';
+    if (Object.keys(localStorage).length>0) {
+      for (key in localStorage){
+        obj = JSON.parse(localStorage[key]);
+        s='';
+        if (typeof(obj) != 'object') {
+          console.error("myError: an internal data element was not an object");
+          alert("myError: an internal data element was not an object");
+        }
+        for (key_2 in obj) {
+          s += key+','+key_2+','+obj[key_2] + '\n';
+        }
+        ret += s;
+      }
+    } else {
+      ret += 'localStorage is empty.';
+    }
+    return ret;
+  }
+
+
+
+
+
+  function showLocalStorageInConsoleLog() {
+    console.log(localStorage2String());
+  }
+
+  function toggleLocalStorageText() {
       if (outHidden) {
         $("#outText").empty();
-        for (var n=1;n<lines.length;n++) { //bug. no revisar todas las lineas. algunas no tienen nada asignado en localstorage
-          $("#outText").append( localStorage.getItem(""+lines[n].split(',',1)[0]) );
-        }
-
+        $("#outText").append( localStorage2String() );
         $('#outText').show();
         outHidden = false;
       } else {
@@ -434,6 +656,23 @@
         outHidden = true;
       }
   }
+
+
+  function toggleExportText() {
+      if (outHidden) {
+        $("#outText").empty();
+        $("#outText").append( localStorage2ExportString() );
+        $('#outText').show();
+        outHidden = false;
+      } else {
+        $('#outText').hide();
+        outHidden = true;
+      }
+  }
+
+  $(function () { //enables pretty tooltips from bootstrap
+    $('[data-toggle="tooltip"]').tooltip();
+  })
 
 </script>
 
