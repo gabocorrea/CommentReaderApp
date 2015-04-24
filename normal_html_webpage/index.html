@@ -75,9 +75,9 @@
 </head>
 <body>
 
-  <div class="container" style="margin-top: 10px">
+  <div class="container" style="margin-top: 2px">
 
-    <div class="row" style="margin-bottom: 10px">
+    <div class="row" style="margin-bottom: 5px">
       <div class="col-lg-6 col-sm-6 col-12">
         <h4>Open a file with comments:</h4>
         <div class="input-group">
@@ -92,53 +92,58 @@
     </div>
 
 
+
+
+
+
+
     <div id="buttons_and_comments">
-      <div id="buttons" style="margin-top: 30px">
-        <div class="row">
-          <div class="btn-group col-md-3 col-md-offset-5">
-            <button type="button" class="btn btn-success btn-lg btn-block" onclick="yes();">
+
+
+
+     <div id="buttons" style="margin-top: 10px">
+
+      
+          <div class="col-sm-offset-7">
+            <button type="button" class="btn btn-success btn-sm" onclick="previousPhrase();">
               <span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
-              Directive
             </button>
           </div>
-        </div>
+       
 
+        
+        <div class="inline-block col-sm-offset-5">
+          <button type="button" class=" col-sm-4 btn btn-default btn-sm" onclick="toggleDirectiveField();">
+            Toggle Comment Type (space)
+          </button>
+          
 
-        <div class="row">
-          <div class="col-md-2 col-md-offset-3">
-            <button type="button" class="btn btn-default btn-lg btn-block" onclick="previousComment();">
+            <button type="button" class="btn btn-default btn-sm" onclick="previousComment();">
               <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
-              Prev
             </button>
-          </div>
-          <div class="col-md-3">
-            <button type="button" class="btn btn-danger btn-lg btn-block" onclick="no();">
+            <button type="button" class="btn btn-danger btn-sm" onclick="nextPhrase();">
               <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-              Non-Directive
             </button>
-          </div>
-          <div class="col-md-2">
-            <button type="button" class="btn btn-default btn-lg btn-block" onclick="nextComment();">
-              Next
+            <button type="button" class="btn btn-default btn-sm" onclick="nextComment();">
               <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
             </button>
-          </div>
+            
+          
         </div>
+
+
       </div>
 
 
-      <br>
-      <br>
+
+
+
+
       <div class="text-center">
-        <h3 id="id_comment">id</h3>
+        <h3 id="id_comment">id:</h3>
+        <p> <h4 id="type_comment"></h4> <h4 id="path_comment"></h4> </p>
         <p id='mylogger'></p>
       </div>
-
-      <div class="text-center">
-        <h3 id="mylogger"></h3>
-      </div>
-
-      <!--<h3>Comment:</h3>-->
 
       <div id="comment">
         <code><pre id="commentPre">
@@ -148,7 +153,6 @@
 
 
 
-      <br>
       <br>
 
       <div class="row">
@@ -271,6 +275,8 @@
       calculateCurrentLinesSubset();
       updateText();
       updateId();
+      updateType();
+      updatePath();
       updateMyLogger();
       console.log(Object.keys(is_directive_setted_values).length);
       populateDirectiveSettedValuesDictionary();
@@ -297,6 +303,8 @@
       phrase_pointer += 1;
       updateText();
       updateId();
+      updateType();
+      updatePath();
     } else {
       nextComment();
     }
@@ -310,6 +318,8 @@
       phrase_pointer -= 1;
       updateText();
       updateId();
+      updateType();
+      updatePath();
     } else{
       previousComment('end');
     }
@@ -325,6 +335,8 @@
       phrase_pointer = 1;
       updateText();
       updateId();
+      updateType();
+      updatePath();
     }
   }
 
@@ -347,6 +359,8 @@
       }
       updateText();
       updateId();
+      updateType();
+      updatePath();
     }
   }
   function calculateCurrentLinesSubset()
@@ -407,6 +421,17 @@
     var line = mysplit(lines_current_subset[phrase_pointer],',',2);
     showId(line[0]+'-'+line[1]);
   }
+  function updateType()
+  {
+    var line = mysplit(lines_current_subset[phrase_pointer],',',4);
+    showType(line[3]);
+  }
+  function updatePath()
+  {
+    var line = mysplit(lines_current_subset[phrase_pointer],',',5);
+    showPath(line[4]);
+  }
+
 
   function updateText()
   {
@@ -598,11 +623,27 @@
       $("#id_comment").append( "id: "+ str );
  
     }
+    window.showType = function(str)
+    {
+      console.log("showType() was called");
+
+      $("#type_comment").empty();
+      $("#type_comment").append( str );
+ 
+    }
+    window.showPath = function(str)
+    {
+      console.log("showPath() was called");
+
+      $("#path_comment").empty();
+      $("#path_comment").append( str );
+ 
+    }
 
     window.showLog = function(str)
     {
       $('#mylogger').empty();
-      $('#mylogger').append(str);
+      $('#mylogger').append( "<br></br><h5><u>debugging log:</u></h5>"+ str);
     }
 
   });
