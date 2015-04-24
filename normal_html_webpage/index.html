@@ -54,10 +54,21 @@
 
   mark{color:#000;background:#ff0}
   
-  .bg-morado{background-color:#CCCDFF}
-  .bg-rojo{background-color:#FCB1B1}  
-  .bg-morado > *{background-color:#CCCDFF}
-  .bg-rojo > *{background-color:#FCB1B1}
+  .bg-azul{background-color:#BAD2FF}
+  .bg-azul > *{background-color:#BAD2FF}
+  .bg-azul-selected{background-color:#AAC3F2}
+  .bg-azul-selected > *{background-color:#AAC3F2}
+
+  .bg-amarillo{background-color:#FBFF91}
+  .bg-amarillo > *{background-color:#FBFF91}
+  .bg-amarillo-selected{background-color:#E4E87B}
+  .bg-amarillo-selected > *{background-color:#E4E87B}
+
+  .bg-gris{background-color:#F7F7F7}
+  .bg-gris > *{background-color:#F7F7F7}
+  .bg-gris-selected{background-color:#E8E8E8}
+  .bg-gris-selected > *{background-color:#E8E8E8}
+
   </style>
 
 
@@ -401,14 +412,49 @@
   {
     var comment = '';
 
+    
+    selected_phrase_dict = {};
     for (var i=1;i<lines_current_subset.length; i++){
+      myLineVar = mysplit(lines_current_subset[i],',',3);
       var splitted_line = mysplit(lines_current_subset[i],',',5);
-      if (i!=phrase_pointer) {
-        ////// Last version: splitted_line[5].replace(/<[^>]+>/g,'') //esto es para ignorar todos los tagsj
-        comment += '<span class="inline bg-morado">'+splitted_line[5]+'</span>';
+
+      ss = '';
+      is_directive = undefined;
+      //: Si existe ha sido modificado, usar ese color. Si no, buscar color en las lineas del archivo
+      if(is_directive_setted_values[myLineVar[0]] != undefined && is_directive_setted_values[myLineVar[0]][i] != undefined){
+          is_directive = is_directive_setted_values[myLineVar[0]][i];
+          ss='if';
       } else {
-        comment += '<span class="inline bg-rojo">'+splitted_line[5]+'</span>';
+        is_directive = splitted_line[2];
+        ss = 'else';
       }
+      if (i==phrase_pointer) {
+        console.log('\n**is_directive('+ss+')='+is_directive+'\n');
+      }
+
+      if (i==phrase_pointer){
+        selected_phrase_dict[''+i] = '-selected';
+      } else {
+        selected_phrase_dict[''+i] = '';
+      }
+
+
+
+      if (is_directive == '0') {
+        comment += '<span class="inline bg-gris'+selected_phrase_dict[''+i]+'">'+splitted_line[5]+'</span>';
+      } else if (is_directive == '1') {
+        comment += '<span class="inline bg-amarillo'+selected_phrase_dict[''+i]+'">'+splitted_line[5]+'</span>';
+      } else if (is_directive == '2') {
+        comment += '<span class="inline bg-azul'+selected_phrase_dict[''+i]+'">'+splitted_line[5]+'</span>';
+      } else {
+        console.error('myError: se leyó una directiva distinta a {0,1,2}');
+        return;
+      }
+      if (i!=phrase_pointer) {
+       
+        
+      }
+
     }
     showText(comment);
   }
@@ -475,6 +521,7 @@
       console.error("esto no deberia pasar, is_directive="+is_directive);
     }
     localStorage.setItem(''+myLineVar[0], JSON.stringify(is_directive_setted_values[myLineVar[0]]));
+    updateText();
   }
 
   function populateDirectiveSettedValuesDictionary(){
@@ -532,6 +579,7 @@
     window.showText = function(str)
     {
       console.log("showText() was called");
+      ////// Last version: splitted_line[5].replace(/<[^>]+>/g,'') //esto es para ignorar todos los tags
       str = str.replace(/<\/?p>/g,'');
       str = str.replace(/\\n/g,'<br>');
       html = $.parseHTML( str );
@@ -669,6 +717,33 @@
         outHidden = true;
       }
   }
+
+
+function increase_brightness(hex, percent){
+    // strip the leading # if it's there
+    hex = hex.replace(/^\s*#|\s*$/g, '');
+
+    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+    if(hex.length == 3){
+        hex = hex.replace(/(.)/g, '$1$1');
+    }
+
+    var r = parseInt(hex.substr(0, 2), 16),
+        g = parseInt(hex.substr(2, 2), 16),
+        b = parseInt(hex.substr(4, 2), 16);
+
+    return '#' +
+       ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
+       ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
+       ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
+}
+
+
+
+
+
+
+
 
   $(function () { //enables pretty tooltips from bootstrap
     $('[data-toggle="tooltip"]').tooltip();
