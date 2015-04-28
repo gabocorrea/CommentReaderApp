@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>CommentsReaderApp</title>
 
   <!-- Latest compiled and minified CSS -->
@@ -54,20 +55,20 @@
 
   mark{color:#000;background:#ff0}
   
-  .bg-azul{background-color:#BAD2FF}
-  .bg-azul > *{background-color:#BAD2FF}
-  .bg-azul-selected{background-color:#AAC3F2}
-  .bg-azul-selected > *{background-color:#AAC3F2}
+  .bg-azul{background-color:#A8EFFF}
+  .bg-azul > *{background-color:#A8EFFF}
+  .bg-azul-selected{background-color:#9AD6E3}
+  .bg-azul-selected > *{background-color:#9AD6E3}
 
-  .bg-amarillo{background-color:#FBFF91}
-  .bg-amarillo > *{background-color:#FBFF91}
-  .bg-amarillo-selected{background-color:#E4E87B}
-  .bg-amarillo-selected > *{background-color:#E4E87B}
+  .bg-amarillo{background-color:#F5FF66}
+  .bg-amarillo > *{background-color:#F5FF66}
+  .bg-amarillo-selected{background-color:#E0DC5C}
+  .bg-amarillo-selected > *{background-color:#E0DC5C}
 
-  .bg-gris{background-color:#F7F7F7}
-  .bg-gris > *{background-color:#F7F7F7}
-  .bg-gris-selected{background-color:#E8E8E8}
-  .bg-gris-selected > *{background-color:#E8E8E8}
+  .bg-gris{background-color:#FAFAFA}
+  .bg-gris > *{background-color:#FAFAFA}
+  .bg-gris-selected{background-color:#DEDEDE}
+  .bg-gris-selected > *{background-color:#DEDEDE}
 
   </style>
 
@@ -140,14 +141,24 @@
 
 
       <div class="text-center">
-        <h3 id="id_comment">id:</h3>
-        <p> <h4 id="type_comment"></h4> <h4 id="path_comment"></h4> </p>
+        <div class="row">
+            <label class="">ID: </label>
+            <input id="id_comment" onchange="changeId();">
+            <span>(the '-' is not necessary)</span>
+        </div>
+        <div class="row">
+          <h4 id="type_comment" class="">_</h4>
+        </div>
+        <div class="row">
+          <h4 id="path_comment" class="">_</h4>
+        </div>
+        
         <p id='mylogger'></p>
       </div>
 
-      <div id="comment">
-        <code><pre id="commentPre">
-        </pre></code>
+      <div id="comment" class="col-md-12">
+        <pre id="commentPre">
+        </pre>
       </div>
 
 
@@ -176,9 +187,9 @@
         </div>
       </div>
       <div id="out">
-        <code><pre id="outText">
+        <pre id="outText">
 
-        </pre></code>
+        </pre>
       </div>
 
 
@@ -249,7 +260,7 @@
   }
 
 
-  var debug = true;
+  var debug = false;
   var commentsDict = [];
   var lines = [];
   var lines_current_subset = [];
@@ -566,26 +577,109 @@
   }
   function eraseLocalStorage(){
     console.log('eraseLocalStorage() function was called');
-    console.log('\n-------- localStorage before being erased: ---------');
-    for (key in localStorage){
-      console.log(key+':'+localStorage[key]);
-    }
-    if (Object.keys(localStorage).length<1){
-      console.log('((( localStorage is empty )))');
-    }
 
-    localStorage.clear();
+    var ans = confirm('Are you sure?');
+    if (ans) {
+      console.log('\n-------- localStorage before being erased: ---------');
+      for (key in localStorage){
+        console.log(key+':'+localStorage[key]);
+      }
+      if (Object.keys(localStorage).length<1){
+        console.log('((( localStorage is empty )))');
+      }
+
+      localStorage.clear();
+      
+      console.log('\n\n-------- localStorage after being erased: ---------');
+      for (key in localStorage){
+        console.log(key+':'+localStorage[key]);
+      }
+      if (Object.keys(localStorage).length<1){
+        console.log('((( localStorage is empty )))');
+      }  
+    }
     
-    console.log('\n\n-------- localStorage after being erased: ---------');
-    for (key in localStorage){
-      console.log(key+':'+localStorage[key]);
-    }
-    if (Object.keys(localStorage).length<1){
-      console.log('((( localStorage is empty )))');
-    }
   }
 
+  function changeId(){
+    console.log("changeId function was called\n");
 
+    theValue = $('#id_comment').val();
+    splittedArray = mysplit(theValue,'-',1);
+
+    idMain = splittedArray[0];
+    
+    idMain_int = parseInt(idMain);
+    if (!isNaN(idMain_int)) {
+
+      if (idMain_int>0 && idMain_int<lines.length-1) {
+        
+        if ( parseInt(mysplit(lines[current_line_pointer],',',1)[0]) <=idMain_int) {
+          
+          for (var i=current_line_pointer; i<lines.length-1;i++) {
+
+            
+            id = mysplit(lines[i],',',1)[0];
+            id_int = parseInt(id);
+            if (isNaN(id_int)){
+              console.error('found an id in the file that is not an int at i='+i);
+              return;
+            } //else:
+            if (id_int==idMain_int) {
+              console.log('el idMain fue encontrado');
+              current_line_pointer = i;
+              break;
+            }
+            
+          }
+        } else {
+          for (var i=current_line_pointer; i>1;i--) {
+
+            id = mysplit(lines[i],',',1)[0];
+            id_int = parseInt(id);
+            if (isNaN(id_int)){
+              console.error('found an id in the file that is not an int at i='+i);
+              return;
+            } //else:
+            if (id_int==idMain_int) {
+              lastId = undefined;
+              stop = undefined;
+              console.log('el idMain fue encontrado');
+              for (var j=i; j>1;j--){
+                console.log(j);
+                id = mysplit(lines[j],',',1)[0];
+                id_int = parseInt(id);
+                if (lastId!=undefined && lastId!=id_int){
+                  current_line_pointer = j+1;
+                  stop = true;
+                  break;
+                }
+                lastId = id_int;
+
+              }
+              if (stop) { break; }
+            }
+            
+          }
+        }
+        console.log('loop finished_________');
+        calculateCurrentLinesSubset();
+        phrase_pointer = 1;
+        updateText();
+        updateId();
+        updateType();
+        updatePath();
+        updateMyLogger();
+
+
+      } else {
+        console.log('!   id entered is out of range   !');
+      }
+    } else {
+      console.log('!   invalid id entered   !');
+      return;
+    }
+  }
 
 
 
@@ -606,6 +700,10 @@
       console.log("showText() was called");
       ////// Last version: splitted_line[5].replace(/<[^>]+>/g,'') //esto es para ignorar todos los tags
       str = str.replace(/<\/?p>/g,'');
+      str = str.replace(/<\/?ul>/g,'');
+
+      str = str.replace(/<\/?ol>/g,'');//esto no he testeado como se ve aun en la pagina
+
       str = str.replace(/\\n/g,'<br>');
       html = $.parseHTML( str );
 
@@ -619,8 +717,8 @@
     {
       console.log("showId() was called");
 
-      $("#id_comment").empty();
-      $("#id_comment").append( "id: "+ str );
+
+      $("#id_comment").val( str );
  
     }
     window.showType = function(str)
@@ -676,7 +774,12 @@
               break;
           }
           j = aStringCpy.indexOf(aChar);
-          arr.push(aStringCpy.slice(0,j));
+          if (j!=-1){
+            arr.push(aStringCpy.slice(0,j));
+          } else {
+            arr.push(aStringCpy.slice(0));
+            break;
+          }
       
       }
       return arr;
@@ -760,42 +863,42 @@
   }
 
 
-function increase_brightness(hex, percent){
-    // strip the leading # if it's there
-    hex = hex.replace(/^\s*#|\s*$/g, '');
+  function increase_brightness(hex, percent){
+      // strip the leading # if it's there
+      hex = hex.replace(/^\s*#|\s*$/g, '');
 
-    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-    if(hex.length == 3){
-        hex = hex.replace(/(.)/g, '$1$1');
-    }
+      // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+      if(hex.length == 3){
+          hex = hex.replace(/(.)/g, '$1$1');
+      }
 
-    var r = parseInt(hex.substr(0, 2), 16),
-        g = parseInt(hex.substr(2, 2), 16),
-        b = parseInt(hex.substr(4, 2), 16);
+      var r = parseInt(hex.substr(0, 2), 16),
+          g = parseInt(hex.substr(2, 2), 16),
+          b = parseInt(hex.substr(4, 2), 16);
 
-    return '#' +
-       ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
-       ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
-       ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
-}
-
-
+      return '#' +
+         ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
+         ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
+         ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
+  }
 
 
 
 
 
 
-  $(function () { //enables pretty tooltips from bootstrap
-    $('[data-toggle="tooltip"]').tooltip();
-  })
-
-</script>
 
 
+    $(function () { //enables pretty tooltips from bootstrap
+      $('[data-toggle="tooltip"]').tooltip();
+    })
 
-<!-- [Bootstrap] Latest compiled and minified JavaScript -->
-<script src="bootstrap/bootstrap.min.js"></script> 
+  </script>
+
+
+
+  <!-- [Bootstrap] Latest compiled and minified JavaScript -->
+  <script src="bootstrap/bootstrap.min.js"></script> 
 
 </body>
 </html>
