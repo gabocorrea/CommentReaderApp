@@ -545,14 +545,14 @@
     
 
     if (is_directive == '0') {
-      is_directive_setted_values[myLineVar[0]][phrase_pointer] = '1'
-      console.log("phrase set to 1 (directive)\n");
-    } else if (is_directive == '1') {
       is_directive_setted_values[myLineVar[0]][phrase_pointer] = '2'
       console.log("phrase set to 2 (revise-later)\n");
-    } else if (is_directive == '2') {
+    } else if (is_directive == '1') {
       is_directive_setted_values[myLineVar[0]][phrase_pointer] = '0'
       console.log("phrase set to 0 (non-directive)\n");
+    } else if (is_directive == '2') {
+      is_directive_setted_values[myLineVar[0]][phrase_pointer] = '1'
+      console.log("phrase set to 1 (directive)\n");
     } else {
       console.error("esto no deberia pasar, is_directive="+is_directive);
     }
