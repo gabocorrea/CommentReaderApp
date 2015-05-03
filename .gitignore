@@ -1,6 +1,8 @@
 ######## my ignores:
 DjangoVideoTutorial/
 DjangoOficialTutorial/
+3_process_web_output.py
+web-output.csv
 
 # Windows image file caches
 Thumbs.db
