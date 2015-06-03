@@ -10,7 +10,7 @@ loops = 0 #put 0 for loop until end (infinite)
 myset = {}
 
 
-with open("merged.csv") as fdmerged:
+with open("directives-85-2004.csv") as fdmerged:
 	i = 1
 	for line in fdmerged:
 		if i>1:
@@ -63,7 +63,4 @@ with open("../dataset_withID_with_phrases_with-IsDirective-Info.csv") as fdDatas
 
 print(str(differentValueCount) + ' values were changed.')
 print(str(sameValueCount) + ' values left the same as before because the new value was the same as the old.')
-print(str(othernum) + ' is the other num.')
-lenn=0
-
-print('size of set:'+str( sum(len(v) for v in myset.values() )) )
+print(str(othernum) + ' values were never modified in the web app.')

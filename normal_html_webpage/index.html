@@ -23,6 +23,10 @@
       listener.simple_combo("down", function() {nextPhrase(); updateMyLogger();});
       listener.simple_combo("right", function() {nextComment(); updateMyLogger();});
       listener.simple_combo("left", function() {previousComment('start'); updateMyLogger();});
+      listener.simple_combo("i", function() {previousPhrase(); updateMyLogger();});
+      listener.simple_combo("k", function() {nextPhrase(); updateMyLogger();});
+      listener.simple_combo("l", function() {nextComment(); updateMyLogger();});
+      listener.simple_combo("j", function() {previousComment('start'); updateMyLogger();});
       $('#file').on('fileselect', function(event, numFiles, label) {
         $('#file_name').val(label);
       });
@@ -69,6 +73,12 @@
   .bg-gris > *{background-color:#FAFAFA}
   .bg-gris-selected{background-color:#DEDEDE}
   .bg-gris-selected > *{background-color:#DEDEDE}
+
+
+  .bg-naranjo{background-color:#FFE3B3}
+  .bg-naranjo > *{background-color:#FFE3B3}
+  .bg-naranjo-selected{background-color:#FFDA99}
+  .bg-naranjo-selected > *{background-color:#FFDA99}
 
   </style>
 
@@ -482,6 +492,8 @@
         comment += '<span class="inline bg-amarillo'+selected_phrase_dict[''+i]+'">'+splitted_line[5]+'</span>';
       } else if (is_directive == '2') {
         comment += '<span class="inline bg-azul'+selected_phrase_dict[''+i]+'">'+splitted_line[5]+'</span>';
+      } else if (is_directive == '3') {
+        comment += '<span class="inline bg-naranjo'+selected_phrase_dict[''+i]+'">'+splitted_line[5]+'</span>';
       } else {
         console.error('myError: se leyó una directiva distinta a {0,1,2}');
         return;
@@ -551,6 +563,9 @@
       is_directive_setted_values[myLineVar[0]][phrase_pointer] = '0'
       console.log("phrase set to 0 (non-directive)\n");
     } else if (is_directive == '2') {
+      is_directive_setted_values[myLineVar[0]][phrase_pointer] = '3'
+      console.log("phrase set to 3 (comment-with-null)\n");
+    } else if (is_directive == '3') {
       is_directive_setted_values[myLineVar[0]][phrase_pointer] = '1'
       console.log("phrase set to 1 (directive)\n");
     } else {
