@@ -1,4 +1,11 @@
-text,is_directive
+% 1. Title: arff file created from dataset_corrected_only_comments_and_manually_revised_subset_(only comments and class).csv
+
+@RELATION "dataset_corrected_only_comments_and_manually_revised_subset_(only comments and class).arff"
+
+@ATTRIBUTE text STRING
+@ATTRIBUTE is_directive {directive,non-directive}
+
+@DATA
 "\nProvides support for dialogs.\n<h2>\nPackage Specification</h2>\nA dialog is a specialized window, typically consisting of a dialog area\nand a button bar, designed for narrow-focussed communication with the user.\n<p>The dialog framework consists of an abstract base class (<tt>Dialog</tt>),\nalong with more concrete dialog subclasses for displaying messages (<tt>MessageDialog</tt>),\nsoliciting text input (<tt>InputDialog</tt>), and displaying progress during\na long-running operation (<tt>ProgressMonitorDialog</tt>).\n<p>Dialog stores (<tt>IDialogStore</tt>, <tt>DialogStore</tt>) provide\na general framework for organizing a dialog's settings into key/value pairs.\nMulti-page dialogs are made easier through the use of dialog pages (<tt>IDialogPage</tt>,\n<tt>DialogPage</tt>).\n<p>Note: None of the classes in this package maintain global state.\n<br>&nbsp;\n<br>&nbsp;\n<br>&nbsp;\n",directive
 "\nProvides support for dialogs.\n",non-directive
 "<h2>\nPackage Specification</h2>\nA dialog is a specialized window, typically consisting of a dialog area\nand a button bar, designed for narrow-focussed communication with the user.\n",non-directive
@@ -9074,4 +9081,4 @@ text,is_directive
 "@param falseTransformer  the transformer called if the predicate is false\n ",directive
 "@return the transformer\n ",non-directive
 "@throws IllegalArgumentException if the predicate is null\n ",non-directive
-"@throws IllegalArgumentException if either transformer is null\n",non-directive
+"@throws IllegalArgumentException if either transformer is null\",non-directive

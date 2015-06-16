@@ -1,0 +1,206 @@
+@relation 'textMining01.csv-testSet'
+
+@attribute text STRING
+@attribute is_directive {directive,non-directive}
+
+@data
+'@version $Revision: 815026 $ $Date: 2009-09-15 07:54:23 +0200 (Tue, 15 Sep 2009) $\n\n ',non-directive
+'@author Stephen Colebourne\n',non-directive
+' Returns true if this map is full and no new elements can be added.\n\n @return <code>true</code> if the map is full\n',non-directive
+' Returns true if this map is full and no new elements can be added.\n\n ',non-directive
+'@return <code>true</code> if the map is full\n',non-directive
+' Gets the maximum size of the map (the bound).\n\n @return the maximum number of elements the map can hold\n',non-directive
+' Gets the maximum size of the map (the bound).\n\n ',non-directive
+'@return the maximum number of elements the map can hold\n',non-directive
+' Defines a simple key value pair.\n <p>\n A Map Entry has considerable additional semantics over and above a simple\n key-value pair. This interface defines the minimum key value, with just the\n two get methods.\n\n @param <K> the type of the key\n @param <V> the type of the value\n @since Commons Collections 3.0\n @version $Revision: 815006 $ $Date: 2009-09-15 07:44:36 +0200 (Tue, 15 Sep 2009) $\n\n @author Stephen Colebourne\n',directive
+' Defines a simple key value pair.\n ',non-directive
+'<p>\n A Map Entry has considerable additional semantics over and above a simple\n key-value pair. ',directive
+'This interface defines the minimum key value, with just the\n two get methods.\n\n ',non-directive
+'@param <K> the type of the key\n ',non-directive
+'@param <V> the type of the value\n ',non-directive
+'@since Commons Collections 3.0\n ',non-directive
+'@version $Revision: 815006 $ $Date: 2009-09-15 07:44:36 +0200 (Tue, 15 Sep 2009) $\n\n ',non-directive
+'@author Stephen Colebourne\n',non-directive
+' Gets the key from the pair.\n\n @return the key \n',non-directive
+' Gets the key from the pair.\n\n ',non-directive
+'@return the key \n',non-directive
+' Gets the value from the pair.\n\n @return the value\n',non-directive
+' Gets the value from the pair.\n\n ',non-directive
+'@return the value\n',non-directive
+' The BufferUnderflowException is used when the buffer is already empty.\n <p>\n NOTE: From version 3.0, this exception extends NoSuchElementException.\n\n @since Commons Collections 2.1\n @version $Revision: 956279 $ $Date: 2010-06-19 21:47:48 +0200 (Sat, 19 Jun 2010) $\n\n @author Avalon\n @author Berin Loritsch\n @author Jeff Turner\n @author Paul Jack\n @author Stephen Colebourne\n',directive
+' The BufferUnderflowException is used when the buffer is already empty.\n ',non-directive
+'<p>\n NOTE: From version 3.0, this exception extends NoSuchElementException.\n\n ',directive
+'@since Commons Collections 2.1\n ',non-directive
+'@version $Revision: 956279 $ $Date: 2010-06-19 21:47:48 +0200 (Sat, 19 Jun 2010) $\n\n ',non-directive
+'@author Avalon\n ',non-directive
+'@author Berin Loritsch\n ',non-directive
+'@author Jeff Turner\n ',non-directive
+'@author Paul Jack\n ',non-directive
+'@author Stephen Colebourne\n',non-directive
+' Constructs a new <code>BufferUnderflowException</code>.\n',non-directive
+' Constructs a new <code>BufferUnderflowException</code>.\n',non-directive
+'\n Construct a new <code>BufferUnderflowException</code>.\n \n @param message  the detail message for this exception\n',non-directive
+'\n Construct a new <code>BufferUnderflowException</code>.\n \n',non-directive
+?,non-directive
+'@param message  the detail message for this exception\n',non-directive
+'\n Construct a new <code>BufferUnderflowException</code>.\n \n @param message  the detail message for this exception\n @param exception  the root cause of the exception\n',non-directive
+'\n Construct a new <code>BufferUnderflowException</code>.\n \n',non-directive
+?,non-directive
+'@param message  the detail message for this exception\n ',non-directive
+'@param exception  the root cause of the exception\n',non-directive
+' Defines a collection that counts the number of times an object appears in\n the collection.\n <p>\n Suppose you have a Bag that contains <code>{a, a, b, c}</code>.\n Calling {@link #getCount(Object)} on <code>a</code> would return 2, while\n calling {@link #uniqueSet()} would return <code>{a, b, c}</code>.\n <p>\n <i>NOTE: This interface violates the {@link Collection} contract.</i> \n The behavior specified in many of these methods is <i>not</i> the same\n as the behavior specified by <code>Collection</code>.\n The noncompliant methods are clearly marked with \"(Violation)\".\n Exercise caution when using a bag as a <code>Collection</code>.\n <p>\n This violation resulted from the original specification of this interface.\n In an ideal world, the interface would be changed to fix the problems, however\n it has been decided to maintain backwards compatibility instead.\n\n @param <E> the type held in the bag\n @since Commons Collections 2.0\n @version $Revision: 815019 $ $Date: 2009-09-15 07:54:10 +0200 (Tue, 15 Sep 2009) $\n\n @author Chuck Burdick\n @author Stephen Colebourne\n',directive
+' Defines a collection that counts the number of times an object appears in\n the collection.\n ',non-directive
+'<p>\n Suppose you have a Bag that contains <code>{a, a, b, c}</code>.\n ',non-directive
+'Calling {',directive
+'@link #getCount(Object)} on <code>a</code> would return 2, while\n calling {',directive
+'@link #uniqueSet()} would return <code>{a, b, c}</code>.\n ',non-directive
+'<p>\n <i>NOTE: This interface violates the {',directive
+'@link Collection} contract.</i> \n The behavior specified in many of these methods is <i>not</i> the same\n as the behavior specified by <code>Collection</code>.\n ',non-directive
+'The noncompliant methods are clearly marked with \"(Violation)\".\n ',non-directive
+'Exercise caution when using a bag as a <code>Collection</code>.\n ',non-directive
+'<p>\n This violation resulted from the original specification of this interface.\n ',non-directive
+'In an ideal world, the interface would be changed to fix the problems, however\n it has been decided to maintain backwards compatibility instead.\n\n ',non-directive
+'@param <E> the type held in the bag\n ',non-directive
+'@since Commons Collections 2.0\n ',non-directive
+'@version $Revision: 815019 $ $Date: 2009-09-15 07:54:10 +0200 (Tue, 15 Sep 2009) $\n\n ',non-directive
+'@author Chuck Burdick\n ',non-directive
+'@author Stephen Colebourne\n',non-directive
+' Returns the number of occurrences (cardinality) of the given\n object currently in the bag. If the object does not exist in the\n bag, return 0.\n \n @param object  the object to search for\n @return the number of occurrences of the object, zero if not found\n',non-directive
+' Returns the number of occurrences (cardinality) of the given\n object currently in the bag. ',non-directive
+'If the object does not exist in the\n bag, return 0.\n \n',non-directive
+?,non-directive
+'@param object  the object to search for\n ',non-directive
+'@return the number of occurrences of the object, zero if not found\n',non-directive
+' Adds <code>nCopies</code> copies of the specified object to the Bag.\n <p>\n If the object is already in the {@link #uniqueSet()} then increment its\n count as reported by {@link #getCount(Object)}. Otherwise add it to the\n {@link #uniqueSet()} and report its count as <code>nCopies</code>.\n \n @param object  the object to add\n @param nCopies  the number of copies to add\n @return <code>true</code> if the object was not already in the <code>uniqueSet</code>\n',non-directive
+' Adds <code>nCopies</code> copies of the specified object to the Bag.\n ',non-directive
+'<p>\n If the object is already in the {',non-directive
+'@link #uniqueSet()} then increment its\n count as reported by {',non-directive
+'@link #getCount(Object)}. ',non-directive
+'Otherwise add it to the\n {',non-directive
+'@link #uniqueSet()} and report its count as <code>nCopies</code>.\n \n',non-directive
+?,non-directive
+'@param object  the object to add\n ',non-directive
+'@param nCopies  the number of copies to add\n ',non-directive
+'@return <code>true</code> if the object was not already in the <code>uniqueSet</code>\n',non-directive
+' Returns a {@link Set} of unique elements in the Bag.\n <p>\n Uniqueness constraints are the same as those in {@link java.util.Set}.\n \n @return the Set of unique Bag elements\n',non-directive
+' Returns a {',non-directive
+'@link Set} of unique elements in the Bag.\n ',non-directive
+'<p>\n Uniqueness constraints are the same as those in {',non-directive
+'@link java.util.Set}.\n \n',non-directive
+?,non-directive
+'@return the Set of unique Bag elements\n',non-directive
+' Returns the total number of items in the bag across all types.\n \n @return the total size of the Bag\n',non-directive
+' Returns the total number of items in the bag across all types.\n \n',non-directive
+?,non-directive
+'@return the total size of the Bag\n',non-directive
+' <i>(Violation)</i>\n Returns <code>true</code> if the bag contains all elements in\n the given collection, respecting cardinality.  That is, if the\n given collection <code>coll</code> contains <code>n</code> copies\n of a given object, calling {@link #getCount(Object)} on that object must\n be <code>&gt;= n</code> for all <code>n</code> in <code>coll</code>.\n <p>\n The {@link Collection#containsAll(Collection)} method specifies\n that cardinality should <i>not</i> be respected; this method should\n return true if the bag contains at least one of every object contained\n in the given collection.\n \n @param coll  the collection to check against\n @return <code>true</code> if the Bag contains all the collection\n',directive
+' <i>(Violation)</i>\n Returns <code>true</code> if the bag contains all elements in\n the given collection, respecting cardinality.  ',non-directive
+'That is, if the\n given collection <code>coll</code> contains <code>n</code> copies\n of a given object, calling {',directive
+'@link #getCount(Object)} on that object must\n be <code>&gt;= n</code> for all <code>n</code> in <code>coll</code>.\n ',directive
+'<p>\n The {',non-directive
+'@link Collection#containsAll(Collection)} method specifies\n that cardinality should <i>not</i> be respected; this method should\n return true if the bag contains at least one of every object contained\n in the given collection.\n \n',directive
+?,non-directive
+'@param coll  the collection to check against\n ',non-directive
+'@return <code>true</code> if the Bag contains all the collection\n',non-directive
+' <i>(Violation)</i>\n Remove all elements represented in the given collection,\n respecting cardinality.  That is, if the given collection\n <code>coll</code> contains <code>n</code> copies of a given object,\n the bag will have <code>n</code> fewer copies, assuming the bag\n had at least <code>n</code> copies to begin with.\n\n <P>The {@link Collection#removeAll(Collection)} method specifies\n that cardinality should <i>not</i> be respected; this method should\n remove <i>all</i> occurrences of every object contained in the \n given collection.\n\n @param coll  the collection to remove\n @return <code>true</code> if this call changed the collection\n',directive
+' <i>(Violation)</i>\n Remove all elements represented in the given collection,\n respecting cardinality.  ',non-directive
+'That is, if the given collection\n <code>coll</code> contains <code>n</code> copies of a given object,\n the bag will have <code>n</code> fewer copies, assuming the bag\n had at least <code>n</code> copies to begin with.\n\n ',directive
+'<P>The {',non-directive
+'@link Collection#removeAll(Collection)} method specifies\n that cardinality should <i>not</i> be respected; this method should\n remove <i>all</i> occurrences of every object contained in the \n given collection.\n\n ',directive
+'@param coll  the collection to remove\n ',non-directive
+'@return <code>true</code> if this call changed the collection\n',directive
+' Returns an {@link Iterator} over the entire set of members,\n including copies due to cardinality. This iterator is fail-fast\n and will not tolerate concurrent modifications.\n \n @return iterator over all elements in the Bag\n',directive
+' Returns an {',non-directive
+'@link Iterator} over the entire set of members,\n including copies due to cardinality. ',non-directive
+'This iterator is fail-fast\n and will not tolerate concurrent modifications.\n \n',directive
+?,non-directive
+'@return iterator over all elements in the Bag\n',non-directive
+' The \"read\" subset of the {@link Map} interface.\n @since Commons Collections 5\n @TODO fix version\n @version $Revision: 815056 $ $Date: 2009-09-15 07:55:23 +0200 (Tue, 15 Sep 2009) $\n @see Put\n @author Matt Benson\n',non-directive
+' The \"read\" subset of the {',non-directive
+'@link Map} interface.\n ',non-directive
+'@since Commons Collections 5\n @TODO fix version\n ',non-directive
+'@version $Revision: 815056 $ $Date: 2009-09-15 07:55:23 +0200 (Tue, 15 Sep 2009) $\n ',non-directive
+'@see Put\n ',non-directive
+'@author Matt Benson\n',non-directive
+' <code>TransformerUtils</code> provides reference implementations and \n utilities for the Transformer functor interface. The supplied transformers are:\n <ul>\n <li>Invoker - returns the result of a method call on the input object\n <li>Clone - returns a clone of the input object\n <li>Constant - always returns the same object\n <li>Closure - performs a Closure and returns the input object\n <li>Predicate - returns the result of the predicate as a Boolean\n <li>Factory - returns a new object from a factory\n <li>Chained - chains two or more transformers together\n <li>Switch - calls one transformer based on one or more predicates\n <li>SwitchMap - calls one transformer looked up from a Map\n <li>Instantiate - the Class input object is instantiated\n <li>Map - returns an object from a supplied Map\n <li>Null - always returns null\n <li>NOP - returns the input object, which should be immutable\n <li>Exception - always throws an exception\n <li>StringValue - returns a <code>java.lang.String</code> representation of the input object\n </ul>\n All the supplied transformers are Serializable.\n\n @since Commons Collections 3.0\n @version $Revision: 815106 $ $Date: 2009-09-15 07:56:51 +0200 (Tue, 15 Sep 2009) $\n\n @author Stephen Colebourne\n @author James Carman\n',directive
+' <code>TransformerUtils</code> provides reference implementations and \n utilities for the Transformer functor interface. ',non-directive
+'The supplied transformers are:\n <ul>\n ',non-directive
+'<li>Invoker - returns the result of a method call on the input object\n ',directive
+'<li>Clone - returns a clone of the input object\n ',non-directive
+'<li>Constant - always returns the same object\n ',non-directive
+'<li>Closure - performs a Closure and returns the input object\n ',non-directive
+'<li>Predicate - returns the result of the predicate as a Boolean\n ',non-directive
+'<li>Factory - returns a new object from a factory\n ',non-directive
+'<li>Chained - chains two or more transformers together\n ',non-directive
+'<li>Switch - calls one transformer based on one or more predicates\n ',directive
+'<li>SwitchMap - calls one transformer looked up from a Map\n ',directive
+'<li>Instantiate - the Class input object is instantiated\n ',non-directive
+'<li>Map - returns an object from a supplied Map\n ',non-directive
+'<li>Null - always returns null\n ',non-directive
+'<li>NOP - returns the input object, which should be immutable\n ',directive
+'<li>Exception - always throws an exception\n ',non-directive
+'<li>StringValue - returns a <code>java.lang.String</code> representation of the input object\n </ul>\n ',non-directive
+'All the supplied transformers are Serializable.\n\n ',non-directive
+'@since Commons Collections 3.0\n ',non-directive
+'@version $Revision: 815106 $ $Date: 2009-09-15 07:56:51 +0200 (Tue, 15 Sep 2009) $\n\n ',non-directive
+'@author Stephen Colebourne\n ',non-directive
+'@author James Carman\n',non-directive
+' Gets a transformer that always throws an exception.\n This could be useful during testing as a placeholder.\n \n @see org.apache.commons.collections.functors.ExceptionTransformer\n \n @return the transformer\n',non-directive
+' Gets a transformer that always throws an exception.\n ',non-directive
+'This could be useful during testing as a placeholder.\n \n',non-directive
+?,non-directive
+'@see org.apache.commons.collections.functors.ExceptionTransformer\n \n ',non-directive
+'@return the transformer\n',non-directive
+' Gets a transformer that always returns null.\n \n @see org.apache.commons.collections.functors.ConstantTransformer\n \n @return the transformer\n',non-directive
+' Gets a transformer that always returns null.\n \n',non-directive
+?,non-directive
+'@see org.apache.commons.collections.functors.ConstantTransformer\n \n ',non-directive
+'@return the transformer\n',non-directive
+' Gets a transformer that returns a clone of the input\n object. The input object will be cloned using one of these\n techniques (in order):\n <ul>\n <li>public clone method\n <li>public copy constructor\n <li>serialization clone\n <ul>\n \n @see org.apache.commons.collections.functors.CloneTransformer\n \n @return the transformer\n',non-directive
+' Gets a transformer that returns a clone of the input\n object. ',non-directive
+'The input object will be cloned using one of these\n techniques (in order):\n <ul>\n ',non-directive
+'<li>public clone method\n ',non-directive
+'<li>public copy constructor\n ',non-directive
+'<li>serialization clone\n <ul>\n \n ',non-directive
+'@see org.apache.commons.collections.functors.CloneTransformer\n \n ',non-directive
+'@return the transformer\n',non-directive
+' Creates a Transformer that will return the same object each time the \n transformer is used.\n\n @see org.apache.commons.collections.functors.ConstantTransformer\n \n @param constantToReturn  the constant object to return each time in the transformer\n @return the transformer.\n',non-directive
+' Creates a Transformer that will return the same object each time the \n transformer is used.\n\n ',non-directive
+'@see org.apache.commons.collections.functors.ConstantTransformer\n \n ',non-directive
+'@param constantToReturn  the constant object to return each time in the transformer\n ',non-directive
+'@return the transformer.\n',non-directive
+' Create a new Transformer that calls two transformers, passing the result of\n the first into the second.\n \n @see org.apache.commons.collections.functors.ChainedTransformer\n \n @param transformer1  the first transformer\n @param transformer2  the second transformer\n @return the transformer\n @throws IllegalArgumentException if either transformer is null\n',directive
+' Create a new Transformer that calls two transformers, passing the result of\n the first into the second.\n \n',directive
+?,non-directive
+'@see org.apache.commons.collections.functors.ChainedTransformer\n \n ',non-directive
+'@param transformer1  the first transformer\n ',non-directive
+'@param transformer2  the second transformer\n ',non-directive
+'@return the transformer\n ',non-directive
+'@throws IllegalArgumentException if either transformer is null\n',non-directive
+' Create a new Transformer that calls each transformer in turn, passing the \n result into the next transformer.\n \n @see org.apache.commons.collections.functors.ChainedTransformer\n \n @param transformers  an array of transformers to chain\n @return the transformer\n @throws IllegalArgumentException if the transformers array is null\n @throws IllegalArgumentException if any transformer in the array is null\n',directive
+' Create a new Transformer that calls each transformer in turn, passing the \n result into the next transformer.\n \n',directive
+?,non-directive
+'@see org.apache.commons.collections.functors.ChainedTransformer\n \n ',non-directive
+'@param transformers  an array of transformers to chain\n ',non-directive
+'@return the transformer\n ',non-directive
+'@throws IllegalArgumentException if the transformers array is null\n ',non-directive
+'@throws IllegalArgumentException if any transformer in the array is null\n',non-directive
+' Create a new Transformer that calls each transformer in turn, passing the \n result into the next transformer. The ordering is that of the iterator()\n method on the collection.\n \n @see org.apache.commons.collections.functors.ChainedTransformer\n \n @param transformers  a collection of transformers to chain\n @return the transformer\n @throws IllegalArgumentException if the transformers collection is null\n @throws IllegalArgumentException if any transformer in the collection is null\n',directive
+' Create a new Transformer that calls each transformer in turn, passing the \n result into the next transformer. ',directive
+'The ordering is that of the iterator()\n method on the collection.\n \n',non-directive
+?,non-directive
+'@see org.apache.commons.collections.functors.ChainedTransformer\n \n ',non-directive
+'@param transformers  a collection of transformers to chain\n ',non-directive
+'@return the transformer\n ',non-directive
+'@throws IllegalArgumentException if the transformers collection is null\n ',non-directive
+'@throws IllegalArgumentException if any transformer in the collection is null\n',non-directive
+' Create a new Transformer that calls one of two transformers depending \n on the specified predicate.\n \n @see org.apache.commons.collections.functors.SwitchTransformer\n \n @param predicate  the predicate to switch on\n @param trueTransformer  the transformer called if the predicate is true\n @param falseTransformer  the transformer called if the predicate is false\n @return the transformer\n @throws IllegalArgumentException if the predicate is null\n @throws IllegalArgumentException if either transformer is null\n',directive
+' Create a new Transformer that calls one of two transformers depending \n on the specified predicate.\n \n',directive
+?,non-directive
+'@see org.apache.commons.collections.functors.SwitchTransformer\n \n ',non-directive
+'@param predicate  the predicate to switch on\n ',non-directive
+'@param trueTransformer  the transformer called if the predicate is true\n ',directive
+'@param falseTransformer  the transformer called if the predicate is false\n ',directive
+'@return the transformer\n ',non-directive
+'@throws IllegalArgumentException if the predicate is null\n ',non-directive
+'@throws IllegalArgumentException if either transformer is null\n',non-directive
