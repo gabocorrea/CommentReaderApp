@@ -1,3 +1,8 @@
+"""	Lee como input un archivo .csv con header id,id_sub,is_directive,type,path,text.
+	El output es un archivo .csv con header text,is_directive con la diferencia que los
+	caracteres " fueron reemplazados por \" y que is_directive ahora corresponde a un string
+	(antes correspondia a un int)
+	"""
 import re
 
 filename='dataset_corrected_only_comments_and_manually_revised_subset'

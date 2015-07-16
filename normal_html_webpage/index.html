@@ -580,12 +580,12 @@
       var s = JSON.parse(localStorage.getItem( key ));
 
       if (typeof(s) != 'object') {
-        console.error('myError! found element in localStorage that isnt an object - returning from function');
-        return;
-      }
-      is_directive_setted_values[key] = {};
-      for (key_2 in s) {
-        is_directive_setted_values[key][key_2] = s[key_2];
+        console.info('myInfo! found element in localStorage that isnt an object - skipping it');
+      } else {
+        is_directive_setted_values[key] = {};
+        for (key_2 in s) {
+          is_directive_setted_values[key][key_2] = s[key_2];
+        }
       }
     }
     
@@ -822,22 +822,55 @@
     return ret;
   }
 
+  function help(){
+    console.log("______________\nhelp:\n\n"
+      +"mydebug() : fixes the button Toggle Export Data (it may stop working because of an internal error with the localStorage\n");
+  }
+  function mydebug(){fixToggleExportData();}
+  //fixes the InternalDataElementWasNotAnObject error seen in console sometimes
+  function fixToggleExportData(){
+    myflag=true;
+    
+    for (key in localStorage){
+      if (typeof(localStorage[key]) != 'string') {
+        console.error("myError: localStorage["+key+"] has type "+ typeof(localStorage[key]));
+        myflag = false;
 
+      }
+      
+      try{
+        myobj=JSON.parse(localStorage[key]);
+      } catch(err) {
+        console.log(err.message+" (at "+key+") ... (deleting key)");
+        localStorage.removeItem(key);
+      }
+    }
+    if (myflag){
+      console.log("myMsg: no errors found in localStorage");
+    }
+  }
 
   function localStorage2ExportString(){
     ret = 'id,id_sub,is_directive\n';
     if (Object.keys(localStorage).length>0) {
       for (key in localStorage){
-        obj = JSON.parse(localStorage[key]);
-        s='';
+        try{
+          obj = JSON.parse(localStorage[key]);
+        } catch(err){
+          console.error("catched error: "+err.message);
+          console.error("myError: JSON.parse tried to parse: "+localStorage[key]);
+        }
+        
         if (typeof(obj) != 'object') {
-          console.error("myError: an internal data element was not an object");
-          alert("myError: an internal data element was not an object");
+          console.info("myInfo: an internal data element was not an object -> localStorage["+key+"]=="+localStorage[key]);
         }
-        for (key_2 in obj) {
-          s += key+','+key_2+','+obj[key_2] + '\n';
+        else {
+          s='';
+          for (key_2 in obj) {
+            s += key+','+key_2+','+obj[key_2] + '\n';
+          }
+          ret += s;
         }
-        ret += s;
       }
     } else {
       ret += 'localStorage is empty.';

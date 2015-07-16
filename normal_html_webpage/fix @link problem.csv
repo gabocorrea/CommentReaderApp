@@ -1,0 +1,9 @@
+id,id_sub,is_directive,type,path,text
+41,1,0,package,org/apache/commons/collections/comparators#1,\n<p>\nThis package contains implementations of the\n{@link java.util.Comparator Comparator} interface.\n
+41,2,1,package,org/apache/commons/collections/comparators#2,<p>\nYou may also consider using \n{@link org.apache.commons.collections.ComparatorUtils ComparatorUtils},\nwhich is a single class that uses static methods to construct instances\nof the classes in this package.\n
+41,3,1,package,org/apache/commons/collections/comparators#3,\nYou may also consider
+42,1,0,package,org/apache/commons/collections/list#1,\n<p>\nThis package contains implementations of the\n{@link java.util.List List} interface.\n
+43,1,0,package,org/apache/commons/collections/functors#1,\n<p>\nThis package contains implementations of the\n{@link org.apache.commons.collections.Closure Closure},\n{@link org.apache.commons.collections.Predicate Predicate},\n{@link org.apache.commons.collections.Transformer Transformer} and\n{@link org.apache.commons.collections.Factory Factory} interfaces.\n
+43,2,1,package,org/apache/commons/collections/functors#2,These provide simple callbacks for processing with collections.\n
+43,3,0,package,org/apache/commons/collections/functors#3,</p>\n
+43,4,0,package,org/apache/commons/collections/functors#4,\n<p>\nThis package contains implementations of the\n{@link java.util.Iterator Iterator} interface.\n@link org.apache.commons.collections.IteratorUtils IteratorUtils},\nwhich is a single class that uses static methods to construct instances\nof the classes in this package.\n

@@ -1,0 +1,18 @@
+id,id_sub,is_directive,type,path,text
+41,1,0,package,org/apache/commons/collections/comparators#1,\n<p>\nThis package contains implementations of the\n{
+41,2,0,package,org/apache/commons/collections/comparators#2,@link java.util.Comparator Comparator} interface.\n
+41,3,1,package,org/apache/commons/collections/comparators#3,<p>\nYou may also consider using \n{
+41,4,0,package,org/apache/commons/collections/comparators#4,@link org.apache.commons.collections.ComparatorUtils ComparatorUtils},\nwhich is a single class that uses static methods to construct instances\nof the classes in this package.\n
+41,5,1,package,org/apache/commons/collections/comparators#5,\nYou may also consider
+42,1,0,package,org/apache/commons/collections/list#1,\n<p>\nThis package contains implementations of the\n{
+42,2,0,package,org/apache/commons/collections/list#2,@link java.util.List List} interface.\n
+43,1,0,package,org/apache/commons/collections/functors#1,\n<p>\nThis package contains implementations of the\n{
+43,2,0,package,org/apache/commons/collections/functors#2,@link org.apache.commons.collections.Closure Closure},\n{
+43,3,0,package,org/apache/commons/collections/functors#3,@link org.apache.commons.collections.Predicate Predicate},\n{
+43,4,0,package,org/apache/commons/collections/functors#4,@link org.apache.commons.collections.Transformer Transformer} and\n{
+43,5,0,package,org/apache/commons/collections/functors#5,@link org.apache.commons.collections.Factory Factory} interfaces.\n
+43,6,1,package,org/apache/commons/collections/functors#6,These provide simple callbacks for processing with collections.\n
+43,7,0,package,org/apache/commons/collections/functors#7,</p>\n
+43,8,0,package,org/apache/commons/collections/functors#8,\n<p>\nThis package contains implementations of the\n{
+43,9,0,package,org/apache/commons/collections/functors#9,@link java.util.Iterator Iterator} interface.\n
+43,10,0,package,org/apache/commons/collections/functors#10,@link org.apache.commons.collections.IteratorUtils IteratorUtils},\nwhich is a single class that uses static methods to construct instances\nof the classes in this package.\n
