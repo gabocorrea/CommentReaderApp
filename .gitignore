@@ -1,4 +1,6 @@
 ######## my ignores:
+*.csv
+*.arff
 DjangoVideoTutorial/
 DjangoOficialTutorial/
 
